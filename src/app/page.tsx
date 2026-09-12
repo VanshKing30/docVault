@@ -7,10 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FeatureCards } from "@/components/landing/FeatureCards";
+import { Navbar } from "@/components/landing/Navbar";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
+      <Navbar/>
       <section className="mx-auto flex min-h-screen max-w-6xl flex-col items-center px-6 py-20 text-center">
         <div className="flex max-w-3xl flex-col items-center">
           <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
