@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { FeatureCards } from "@/components/landing/FeatureCards";
 import { Navbar } from "@/components/landing/Navbar";
+
 import Link from "next/link";
 export default function Home() {
   return (
