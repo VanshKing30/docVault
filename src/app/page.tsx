@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { FeatureCards } from "@/components/landing/FeatureCards";
 import { Navbar } from "@/components/landing/Navbar";
-
+import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
@@ -27,7 +27,9 @@ export default function Home() {
           </p>
 
           <div className="mt-8">
-            <Button size="lg">Get Started</Button>
+            <Button asChild size="lg">
+  <Link href="/auth">Get Started</Link>
+</Button>
           </div>
         </div>
 
@@ -40,7 +42,9 @@ export default function Home() {
           </CardHeader>
 
           <CardContent>
-            <Button>Get Started</Button>
+            <Button asChild>
+  <Link href="/auth">Get Started</Link>
+</Button>
           </CardContent>
         </Card>
 
