@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Database } from "@/lib/supabase/database.types";
+import Link from "next/link";
 
 type FamilyMember =
   Database["public"]["Tables"]["family_members"]["Row"];
@@ -10,7 +11,8 @@ type MemberCardProps = {
 
 export function MemberCard({ member }: MemberCardProps) {
   return (
-    <Card>
+  <Link href={`/dashboard/${member.id}`}>
+    <Card className="cursor-pointer transition hover:shadow-md">
       <CardHeader>
         <CardTitle>{member.name}</CardTitle>
       </CardHeader>
@@ -21,5 +23,6 @@ export function MemberCard({ member }: MemberCardProps) {
         </p>
       </CardContent>
     </Card>
-  );
+  </Link>
+);
 }
