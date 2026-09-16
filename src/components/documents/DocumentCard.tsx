@@ -2,7 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Database } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-
+import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 type Document = Database["public"]["Tables"]["documents"]["Row"];
 
 type DocumentCardProps = {
@@ -54,31 +65,55 @@ export function DocumentCard({ document }: DocumentCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{document.file_name}</CardTitle>
+        <CardTitle className="break-words">{document.file_name}</CardTitle>
       </CardHeader>
 
       <CardContent>
-        <p className="text-sm text-muted-foreground">
-          Type: {document.doc_type}
-        </p>
+        <Badge variant="secondary">{document.doc_type}</Badge>
 
-        <p className="mt-1 text-sm text-muted-foreground">
-          Size: {(document.file_size / 1024).toFixed(1)} KB
-        </p>
-
-        {document.expiry_date && (
-          <p className="mt-1 text-sm text-muted-foreground">
-            Expires: {document.expiry_date}
+        <div className="mt-3 space-y-1">
+          <p className="text-sm text-muted-foreground">
+            Size: {(document.file_size / 1024).toFixed(1)} KB
           </p>
-        )}
+
+          {document.expiry_date && (
+            <p className="text-sm text-muted-foreground">
+              Expires: {document.expiry_date}
+            </p>
+          )}
+        </div>
+
         <div className="mt-4 flex gap-2">
           <Button type="button" onClick={handleView}>
             View
           </Button>
 
-          <Button type="button" variant="destructive" onClick={handleDelete}>
-            Delete
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button type="button" variant="destructive">
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete this document?</AlertDialogTitle>
+
+                <AlertDialogDescription>
+                  This will permanently delete {document.file_name}. This action
+                  cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                <AlertDialogAction onClick={handleDelete}>
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </CardContent>
     </Card>

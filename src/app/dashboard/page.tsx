@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { MemberCard } from "@/components/family/MemberCard";
 import { AddMemberModal } from "@/components/family/AddMemberModal";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -26,15 +27,21 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen p-8">
       <div className="mx-auto max-w-6xl">
-        <h1 className="text-3xl font-bold">DocVault Dashboard</h1>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">DocVault Dashboard</h1>
 
-        <p className="mt-2 text-muted-foreground">
-          Welcome, {user.email}
-        </p>
+            <p className="mt-2 text-muted-foreground">Welcome, {user.email}</p>
+          </div>
+
+          <LogoutButton />
+        </div>
 
         <section className="mt-8">
           <h2 className="text-xl font-semibold">Family Members</h2>
-          <div className="mt-4"><AddMemberModal/></div>
+          <div className="mt-4">
+            <AddMemberModal />
+          </div>
 
           {members && members.length > 0 ? (
             <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
