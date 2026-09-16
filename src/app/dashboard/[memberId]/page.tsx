@@ -37,15 +37,17 @@ export default async function MemberPage({ params }: MemberPageProps) {
   return (
     <main className="min-h-screen p-8">
       <div className="mx-auto max-w-6xl">
-       <Link
-  href="/dashboard"
-  className="inline-flex min-h-10 items-center rounded-md px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-accent-foreground"
->
-  ← Family Members
-</Link>
-        <h1 className="text-3xl font-bold">{member.name}</h1>
+        <Link
+          href="/dashboard"
+          className="inline-flex min-h-10 items-center rounded-md px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-accent-foreground"
+        >
+          ← Family Members
+        </Link>
+        <div className="mt-4">
+          <h1 className="text-3xl font-bold break-words">{member.name}</h1>
 
-        <p className="mt-2 text-muted-foreground">{member.relationship}</p>
+          <p className="mt-1 text-muted-foreground">{member.relationship}</p>
+        </div>
         <section className="mt-8">
           <h2 className="text-xl font-semibold">Documents</h2>
 

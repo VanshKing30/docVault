@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen p-8">
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">DocVault Dashboard</h1>
 
@@ -50,10 +50,20 @@ export default async function DashboardPage() {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-muted-foreground">
-              No family members added yet.
-            </p>
-          )}
+  <div className="mt-6 rounded-lg border border-dashed p-8 text-center">
+    <h3 className="text-lg font-semibold">
+      No family members yet
+    </h3>
+
+    <p className="mt-2 text-sm text-muted-foreground">
+      Add your first family member to start organizing their documents.
+    </p>
+
+    <div className="mt-4">
+      <AddMemberModal />
+    </div>
+  </div>
+)}
         </section>
       </div>
     </main>
