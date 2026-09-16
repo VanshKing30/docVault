@@ -1,36 +1,233 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DocVault
 
-## Getting Started
+DocVault is a secure family document management web application designed to make it easy to store, organize, and access important family documents from any device.
 
-First, run the development server:
+Instead of keeping documents scattered across phones, laptops, WhatsApp chats, or physical folders, DocVault organizes them by family member and keeps the actual files in private cloud storage.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔐 Authentication
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Google OAuth authentication
+- Secure session handling using Supabase Auth
+- Protected dashboard routes
+- Automatic redirection for unauthenticated users
+- Logout functionality
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👨‍👩‍👧‍👦 Family Members
 
-## Learn More
+- Add family members
+- Organize documents by family member
+- View each family member's dedicated document collection
+- Each user's family members are isolated using database Row Level Security
 
-To learn more about Next.js, take a look at the following resources:
+### 📄 Document Management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Upload documents for a specific family member
+- Supported formats:
+  - PDF
+  - JPEG
+  - PNG
+- Maximum file size: 10 MB
+- Document types:
+  - Aadhaar Card
+  - PAN Card
+  - Passport
+  - Driving Licence
+  - Birth Certificate
+  - Voter ID
+  - Other
+- Optional expiry date
+- View documents
+- Download documents
+- Delete documents
+- Delete confirmation dialog
+- Upload/download/delete loading states
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📱 Mobile Friendly
 
-## Deploy on Vercel
+DocVault is designed to work across:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Desktop
+- Laptop
+- Tablet
+- Mobile
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application also includes Progressive Web App (PWA) support so it can be added to a compatible device's home screen and launched in an app-like standalone experience.
+
+### 🛡️ Security
+
+Security is a core part of the architecture.
+
+- Supabase Authentication
+- PostgreSQL Row Level Security (RLS)
+- Private Supabase Storage bucket
+- Storage access controlled by authenticated user
+- Short-lived signed URLs for document access
+- No public document URLs
+- No Supabase service-role key exposed to the browser
+- User data isolated by `owner_id`
+
+---
+
+# Tech Stack
+
+## Frontend
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide React
+
+## Backend / Platform
+
+- Supabase Auth
+- Supabase PostgreSQL
+- Supabase Storage
+- PostgreSQL Row Level Security
+
+## Validation
+
+- Zod
+
+## Development
+
+- Bun
+- Maven-style? No — this project uses Bun as the JavaScript package/runtime tool.
+
+## Deployment
+
+- Vercel
+
+---
+
+# Architecture
+
+```text
+                    ┌──────────────────────┐
+                    │      User Device     │
+                    │ Mobile / Desktop     │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       Next.js        │
+                    │   App Router + UI    │
+                    └──────────┬───────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+       ┌──────────────────┐       ┌──────────────────┐
+       │  Supabase Auth   │       │ Supabase Database│
+       │                  │       │   PostgreSQL     │
+       │ Google OAuth     │       │                  │
+       │ Sessions         │       │ RLS Policies     │
+       └──────────────────┘       └────────┬─────────┘
+                                           │
+                                           ▼
+                                ┌────────────────────┐
+                                │  Supabase Storage   │
+                                │                    │
+                                │ Private Documents  │
+                                └────────────────────┘
+
+Project Structure : 
+
+docvault/
+│
+├── public/
+│   └── icons/
+│       ├── icon-192.png
+│       └── icon-512.png
+│
+├── src/
+│   │
+│   ├── app/
+│   │   ├── auth/
+│   │   │   ├── callback/
+│   │   │   │   └── route.ts
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── dashboard/
+│   │   │   ├── [memberId]/
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── icon.svg
+│   │   ├── apple-icon.png
+│   │   ├── manifest.ts
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   │
+│   ├── components/
+│   │   ├── auth/
+│   │   ├── documents/
+│   │   ├── family/
+│   │   └── ui/
+│   │
+│   ├── hooks/
+│   │   ├── useDocuments.ts
+│   │   ├── useFamilyMembers.ts
+│   │   └── ...
+│   │
+│   └── lib/
+│       ├── supabase/
+│       │   ├── client.ts
+│       │   ├── server.ts
+│       │   └── database.types.ts
+│       │
+│       └── validations/
+│           └── document.ts
+│
+├── proxy.ts
+├── components.json
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── .env.local
+└── README.md
+
+V1 Scope
+
+The current V1 focuses on the core problem: Store and access important family documents securely from one place.
+Included in V1
+Google authentication
+Protected dashboard
+Family member management
+Document upload
+Document categorization
+Optional expiry date
+Private document storage
+Database RLS
+Storage RLS
+Signed document URLs
+Document viewing
+Document downloading
+Document deletion
+Delete confirmation
+Loading/error feedback
+Responsive UI
+PWA foundation
+Mobile-friendly experience
+
+
+### One important cleanup
+
+I deliberately **didn't claim features that aren't actually implemented yet**, such as PDF preview, expiry notifications, search, or family sharing. Those are listed under future improvements instead.
+
+Also, there's one accidental line in the README above:
+
+> `Maven-style? No — this project uses Bun...`
+
+That's an internal joke from our build discussion and **should not be in the final README** 😄
+
+Delete that line from the **Development** section, leaving:
+
+```md
+## Development
+
+- Bun
