@@ -28,9 +28,11 @@ export default function Home() {
           </p>
 
           <div className="mt-8">
-            <Button asChild size="lg">
-  <Link href="/auth">Get Started</Link>
-</Button>
+            <Link href="/auth">
+  <Button size="lg">
+    Get Started
+  </Button>
+</Link>
           </div>
         </div>
 
@@ -43,9 +45,11 @@ export default function Home() {
           </CardHeader>
 
           <CardContent>
-            <Button asChild>
-  <Link href="/auth">Get Started</Link>
-</Button>
+            <Link href="/auth">
+  <Button size="lg">
+    Get Started
+  </Button>
+</Link>
           </CardContent>
         </Card>
 

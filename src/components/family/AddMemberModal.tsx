@@ -56,9 +56,9 @@ export function AddMemberModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>Add Family Member</Button>
-      </DialogTrigger>
+<DialogTrigger>
+  <Button>Add Family Member</Button>
+</DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
